@@ -1,0 +1,252 @@
+:root {
+  color-scheme: light;
+  --bg: #f4f5f7;
+  --surface: #ffffff;
+  --surface-hover: #f8f9fb;
+  --text: #1c2130;
+  --muted: #6b7280;
+  --border: #e2e5ea;
+  --accent: #2f6bed;
+  --accent-text: #ffffff;
+  --accent-soft: #e8efff;
+  --danger: #d33f3f;
+  --done: #9aa1ad;
+  --radius: 14px;
+  --shadow: 0 1px 2px rgb(16 24 40 / 0.04), 0 8px 24px rgb(16 24 40 / 0.06);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --bg: #111318;
+    --surface: #1b1e25;
+    --surface-hover: #22262e;
+    --text: #e6e8ec;
+    --muted: #9198a5;
+    --border: #2b2f38;
+    --accent: #6b95ff;
+    --accent-text: #0d1220;
+    --accent-soft: #1f2a44;
+    --danger: #ff7070;
+    --done: #6b7280;
+    --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 8px 24px rgb(0 0 0 / 0.3);
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Hiragino Sans", "Hiragino Kaku Gothic ProN",
+    "Noto Sans JP", "Yu Gothic UI", sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+button, input { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.app {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 56px 16px 80px;
+}
+
+.app-header h1 {
+  margin: 0 0 24px;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+/* 入力フォーム */
+.new-todo {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.new-todo input {
+  flex: 1;
+  min-width: 0;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+.new-todo input::placeholder { color: var(--muted); }
+.new-todo input:focus-visible { outline-offset: 0; border-color: var(--accent); }
+.new-todo button {
+  flex: none;
+  padding: 0 20px;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: var(--accent-text);
+  font-weight: 600;
+  cursor: pointer;
+}
+.new-todo button:hover { filter: brightness(1.08); }
+
+/* ツールバー */
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  margin: 0 4px 8px;
+  font-size: 14px;
+  color: var(--muted);
+}
+.toggle-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+.filters { display: flex; gap: 4px; }
+.filters a {
+  padding: 4px 12px;
+  border-radius: 999px;
+  color: var(--muted);
+  text-decoration: none;
+}
+.filters a:hover { color: var(--text); background: var(--surface); }
+.filters a[aria-current="page"] {
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* リスト */
+.todo-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.todo-list:empty { display: none; }
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 8px 8px 8px 16px;
+  border-top: 1px solid var(--border);
+}
+.todo-item:first-child { border-top: 0; }
+.todo-item:hover { background: var(--surface-hover); }
+
+input[type="checkbox"] {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.title {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  cursor: text;
+}
+.todo-item.done .title {
+  color: var(--done);
+  text-decoration: line-through;
+}
+
+.icon-btn {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s, background-color 0.15s;
+}
+.todo-item:hover .icon-btn,
+.icon-btn:focus-visible { opacity: 1; }
+@media (hover: none) { .icon-btn { opacity: 1; } }
+.icon-btn:hover { background: var(--bg); color: var(--text); }
+.delete-btn:hover { color: var(--danger); }
+
+.todo-item.editing { padding: 8px; }
+.edit {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  background: var(--surface);
+}
+.edit:focus-visible { outline-offset: 0; }
+
+/* 空の状態 */
+.empty {
+  margin: 0;
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--muted);
+  background: var(--surface);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+}
+
+/* フッター */
+.app-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 12px 4px 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+.link-btn {
+  padding: 4px 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+}
+.link-btn:hover { color: var(--danger); text-decoration: underline; }
+
+.hint {
+  margin: 32px 0 0;
+  font-size: 13px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}

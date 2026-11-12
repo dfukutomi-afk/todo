@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TODO</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <header class="app-header">
+      <h1>TODO</h1>
+    </header>
+
+    <form id="new-todo-form" class="new-todo" autocomplete="off">
+      <label for="new-todo-input" class="visually-hidden">新しいタスク</label>
+      <input id="new-todo-input" type="text" placeholder="やることを入力して Enter" maxlength="200" autofocus>
+      <button type="submit">追加</button>
+    </form>
+
+    <div id="toolbar" class="toolbar" hidden>
+      <label class="toggle-all">
+        <input id="toggle-all" type="checkbox">
+        すべて完了にする
+      </label>
+      <nav class="filters" aria-label="表示の切り替え">
+        <a href="#/" data-filter="all">すべて</a>
+        <a href="#/active" data-filter="active">未完了</a>
+        <a href="#/completed" data-filter="completed">完了済み</a>
+      </nav>
+    </div>
+
+    <ul id="todo-list" class="todo-list"></ul>
+    <p id="empty" class="empty"></p>
+
+    <footer id="footer" class="app-footer" hidden>
+      <span id="count" aria-live="polite"></span>
+      <button id="clear-completed" type="button" class="link-btn">完了済みを削除</button>
+    </footer>
+
+    <p class="hint">タスク名をダブルクリックすると編集できます(Enter で保存 / Esc でキャンセル)</p>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
